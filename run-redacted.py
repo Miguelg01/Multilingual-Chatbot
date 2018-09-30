@@ -38,13 +38,15 @@ def sms_translated_reply():
     else:
         text = phrase
         target='en'
-    
+
     #error checking for language tags
     acceptedLang = set(['ja', 'fr', 'es', 'en', 'ru', 'yo'])
-    if phrase.lower()=='options' or (target not in acceptedLang):
-        #respond excusively to sender with error info
-        resp.message('reply in the form: <language tag> <message>')
-        resp.message('accepted language tags: en, es, fr, ja, ru, yo')
+    helpPhrases = set(['options','option','?'])
+
+if (phrase.lower() in helpPhrases) or (target not in acceptedLang):
+    #respond excusively to sender with error info
+    resp.message('reply in the form: <language tag> <message>')
+    resp.message('accepted language tags: en, es, fr, ja, ru, yo')
     else:
         #translate text (in language auto-detected) to out language
         translate_client = translate.Client()
@@ -57,7 +59,7 @@ def sms_translated_reply():
         #send translated message back to sender as confirmation
         resp.message(outPhrase)
     
-            return str(resp)
+    return str(resp)
 
 if __name__ == "__main__":
     app.run(debug=True)
