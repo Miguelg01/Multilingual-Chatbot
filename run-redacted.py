@@ -26,7 +26,7 @@ def sms_ahoy_reply():
     
     
     #translate section
-    mapPhoneNumber = {"+user_1_number":"+user_2_number","+user_2_number":"+user_1_number"}
+    mapPhoneNumber = {credObj.user_1_number:credObj.user_2_number,credObj.user_2_number:credObj.user_1_number}
     fromPhone = messages[0].from_
     toPhone = mapPhoneNumber[fromPhone]
     
@@ -52,12 +52,13 @@ def sms_ahoy_reply():
         outPhrase = translation['translatedText']
         
         #send another message
-        message = client.messages.create(to=toPhone,from_="+twilio_phone_number", body=outPhrase)
+        message = client.messages.create(to=toPhone,from_=credObj.twilio_number, body=outPhrase)
         
         # Add a message
         resp.message(outPhrase)
-            
+    
             return str(resp)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
